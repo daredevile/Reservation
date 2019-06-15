@@ -1,0 +1,25 @@
+﻿@model ReservationApp.ViewModel.ReservationVM
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@Html.Partial("CreatePartial", Model.Reservation)
+@Html.Partial("ListReservationsPartial", Model.Reservations)
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}
+
+<script>
+    $(document).ready(function () {
+
+        $("#RoomType_Id").change(function () {
+
+            $("#Room_Id").prop("disabled", false);
+        })
+    });
+    $("#Room_Id").prop("disabled", true);
+    $(".Date").datepicker({ minDate: 0 }).attr('readonly', 'readonly');
+</script>

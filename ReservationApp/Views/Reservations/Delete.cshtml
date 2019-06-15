@@ -1,0 +1,90 @@
+﻿@model ReservationApp.Models.Reservation
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Warning !!!</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Are you sure you want to cancel this reservation </div>
+            <div class="modal-footer">
+               
+                @using (Html.BeginForm(new { @class = "navbar-right" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <input type="submit" value="Confirm" class="btn btn-danger" />
+
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <h4>Reservation</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Room.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Room.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RoomType.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoomType.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.From)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.From)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.To)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.To)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NoOfDays)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoOfDays)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotallPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotallPrice)
+        </dd>
+
+    </dl>
+    <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#DeleteModal">Delete</a>
+
+    @Html.ActionLink("Back to List", "Create")
+
+</div>

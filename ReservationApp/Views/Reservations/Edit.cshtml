@@ -1,0 +1,152 @@
+﻿@model ReservationApp.Models.Reservation
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-inline">
+    <h4>Reservation</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    <div class="col-lg-12" style="padding-bottom:5px">
+        <div class="form-group col-lg-6">
+            @Html.LabelFor(model => model.RoomType_Id, "Room Type", htmlAttributes: new { @class = "control-label  col-md-3" })
+            <div class="col-md-6">
+                @Html.DropDownList("RoomType_Id", null, htmlAttributes: new { @class = "form-control col-md-6" })
+                @Html.ValidationMessageFor(model => model.RoomType_Id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-lg-6">
+            @Html.LabelFor(model => model.Room_Id, "Room", htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-6">
+                @Html.DropDownList("Room_Id", null, htmlAttributes: new { @class = "form-control " })
+                @Html.ValidationMessageFor(model => model.Room_Id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12" style="padding-bottom:5px">
+        <div class="form-group col-lg-6">
+            @Html.LabelFor(model => model.From, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.From, new { htmlAttributes = new { @class = "date-picker form-control Date", id = "firstDate" } })
+                @Html.ValidationMessageFor(model => model.From, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-lg-6">
+            @Html.LabelFor(model => model.To, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.To, new { htmlAttributes = new { @class = "date-picker form-control Date", id = "secondDate" } })
+                @Html.ValidationMessageFor(model => model.To, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-12" style="padding-bottom:10px">
+        <label id="daysId">@Model.NoOfDays</label>
+        days
+    </div>
+    <div class="col-md-12" style="padding-bottom:10px">
+        Totall Price
+        <img src="~/Image/icons8-us-dollar-26.png" />
+        <label id="priceId">@Model.TotallPrice</label>
+
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Create")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script>
+    $(".Date").datepicker({
+        minDate: 0
+    }).attr('readonly', 'readonly');
+    $(".Date").change(function () {
+        CalculateValues()
+    });
+    $('#RoomType_Id').change(function () {
+        CalculateValues()
+       
+       
+    })
+    CalculateValues = function () {
+        date = new Date($('#firstDate').val());
+        start = date.getDate();
+        date2 = new Date($('#secondDate').val());
+        end = date2.getDate();
+
+        days = (end - start) + 1
+        $("#daysId").text(days);
+
+        var option = $('#RoomType_Id').find("option:selected").text();
+
+        var optionValue = $('#RoomType_Id').val();
+        $.ajax({
+            url: '/Reservations/GetPrice',
+            data: { id: optionValue },
+            type: 'Get',
+            success: function (response) {
+                var price = response.data * days
+                $("#priceId").text(price);
+                
+            },
+            error: function (response) {
+               
+            }
+        });
+        //switch (optionValue) {
+
+        //    case "1":
+        //        var price = 100 * days
+        //        $("#priceId").text(price);
+        //        $("#priceId").val(price);
+        //        break;
+        //    case "2":
+        //        var price = 200 * days
+        //        $("#priceId").text(price);
+        //        $("#priceId").val(price);
+
+        //        break;
+        //    case "3":
+        //        var price = 300 * days
+        //        $("#priceId").text(price);
+        //        $("#priceId").val(price);
+
+        //        break;
+        //    case "4":
+        //        var price = 400 * days
+        //        $("#priceId").text(price);
+        //        $("#priceId").val(price);
+
+        //        break;
+        //    default:
+
+        //        break;
+        //}
+    };
+
+       
+    
+</script>
