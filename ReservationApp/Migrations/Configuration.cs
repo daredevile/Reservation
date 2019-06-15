@@ -1,6 +1,8 @@
 namespace ReservationApp.Migrations
 {
+    using ReservationApp.Models;
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -14,10 +16,26 @@ namespace ReservationApp.Migrations
 
         protected override void Seed(ReservationApp.Models.ApplicationDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            IList<RoomType> defaultRoomTypes = new List<RoomType>();
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data.
+            defaultRoomTypes.Add(new RoomType() { Name = "Superior", price =100 });
+            defaultRoomTypes.Add(new RoomType() { Name = "Suite", price =200  });
+            defaultRoomTypes.Add(new RoomType() { Name = "Family", price =300 });
+            defaultRoomTypes.Add(new RoomType() { Name = "Villas", price =400 });
+
+            context.RoomTypes.AddRange(defaultRoomTypes);
+
+            IList<Room> defaultRooms = new List<Room>();
+
+            defaultRooms.Add(new Room() { Name = "Room 1" });
+            defaultRooms.Add(new Room() { Name = "Room 2"});
+            defaultRooms.Add(new Room() { Name = "Room 3" });
+            defaultRooms.Add(new Room() { Name = "Room 4", });
+            defaultRooms.Add(new Room() { Name = "Room 5", });
+                           
+            context.Rooms.AddRange(defaultRooms);
+
+            base.Seed(context);
         }
     }
 }
